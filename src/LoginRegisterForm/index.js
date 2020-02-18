@@ -23,12 +23,12 @@ export default class LoginRegisterForm extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault()
-		console.log('We are in handleSubmit');
+		// console.log('We are in handleSubmit');
 		this.loginRegister()
 	}
 
 	loginRegister = () => {
-		console.log('WE are in login register conditional func');
+		// console.log('WE are in login register conditional func');
 		if(this.state.action === 'register') {
 			this.props.register(this.state)
 		}

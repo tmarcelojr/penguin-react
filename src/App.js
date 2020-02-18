@@ -10,12 +10,46 @@ export default class App extends Component {
   }
 
   register = async (registerInfo) => {
-    console.log('We are in register with', registerInfo);
-
+    // console.log('We are in register with', registerInfo);
+    try{
+      const registerRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/register', {
+        credentials: 'include', // Required for cookies
+        method: 'POST',
+        body: JSON.stringify(registerInfo),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const registerJson = await registerRes.json()
+      console.log('this is our register json', registerJson);
+    } catch(err) {
+      console.log(err);
+    }
   }
 
-  login = () => {
-    console.log('we are in login');
+  login = async (loginInfo) => {
+    console.log('we are in login with this info', loginInfo);
+    try{
+      const loginRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/login', {
+          credentials: 'include',
+          method: 'POST',
+          body: JSON.stringify(loginInfo),
+          headers: {
+            'Content-Type': 'application/json'
+        }
+      })
+      const loginJson = await loginRes.json()
+      if(loginRes.status === 200) {
+        this.setState({
+          loggedIn: true,
+          loggedInUsername: loginJson.data.username // helpful for good UI
+        })
+      }
+      console.log(this.state.loggedIn);
+      console.log(this.state.loggedInUsername);
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   render() {
