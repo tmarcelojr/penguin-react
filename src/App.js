@@ -1,5 +1,6 @@
 import React from 'react';
 import PenguinContainer from './PenguinContainer'
+import LoginRegisterForm from './LoginRegisterForm'
 import './App.css';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <div className="App">
       <h1>Penguin React</h1>
       <PenguinContainer />
+      <LoginRegisterForm />
     </div>
   );
 }

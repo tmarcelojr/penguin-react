@@ -10,6 +10,8 @@ export default class NavList extends Component {
 		console.log('You clicked on', e.target.name);
 		e.preventDefault()
 		if (e.target.name === 'home') this.props.home()
+		if (e.target.name === 'babyPenguins') this.props.babyPenguins()
+		if (e.target.name === 'activities') this.props.activities()
 	}
 
 	render() {
@@ -22,9 +24,9 @@ export default class NavList extends Component {
 						Home
 					</button>
 					<button
-						name='penguins'
+						name='babyPenguins'
 						onClick={this.handleClick}>
-						Penguins
+						Baby Penguins
 					</button>
 					<button
 						name='activities'
@@ -45,6 +47,6 @@ export default class NavList extends Component {
 					</button>
 				</div>
 			</div>
-			)
+		)
 	}
 }

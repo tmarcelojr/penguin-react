@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class Home extends Component {
+export default class Activities extends Component {
 	state = {
 
 	}
@@ -8,7 +8,7 @@ export default class Home extends Component {
 	render(){
 		return(
 			<React.Fragment>
-				<h2>Hello this is our home page</h2>
+				<h2>Hello this is our activities page</h2>
 			</React.Fragment>
 		)
 	}
