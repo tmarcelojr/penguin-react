@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PenguinContainer from './PenguinContainer'
 import LoginRegisterForm from './LoginRegisterForm'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Penguin React</h1>
-      <PenguinContainer />
-      <LoginRegisterForm />
-    </div>
-  );
-}
+export default class App extends Component {
+  state = {
+    loggedIn: false,
+    loggedInUsername: null
+  }
 
-export default App;
+  register = async (registerInfo) => {
+    console.log('We are in register with', registerInfo);
+
+  }
+
+  login = () => {
+    console.log('we are in login');
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Penguin React</h1>
+        <PenguinContainer />
+        <LoginRegisterForm 
+          login={this.login}
+          register={this.register}
+        />
+      </div>
+    );
+  }
+}

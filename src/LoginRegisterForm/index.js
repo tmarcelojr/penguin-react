@@ -4,7 +4,7 @@ import { Form, Button, Label } from 'semantic-ui-react'
 export default class LoginRegisterForm extends Component {
 	state = {
 		username: '',
-		pasword: '',
+		password: '',
 		action: 'login'
 	}
 
@@ -13,6 +13,7 @@ export default class LoginRegisterForm extends Component {
 			action: this.state.action === 'register' ? 'login' : 'register'
 		})
 	}
+
 	onChange = (e) => {
 		e.preventDefault()
 		this.setState({
@@ -20,14 +21,26 @@ export default class LoginRegisterForm extends Component {
 		})
 	}
 
-	handleSubmit = () => {
+	handleSubmit = (e) => {
+		e.preventDefault()
 		console.log('We are in handleSubmit');
+		this.loginRegister()
+	}
+
+	loginRegister = () => {
+		console.log('WE are in login register conditional func');
+		if(this.state.action === 'register') {
+			this.props.register(this.state)
+		}
+		else {
+			this.props.login(this.state)
+		}
 	}
 
 	render() {
 		return(
 			<div>
-				<h2>{this.state.action + 'here'}</h2>
+				<h2>{this.state.action + ' here'}</h2>
 				<form onSubmit={this.handleSubmit}>
 					<Label>Username:</Label>
 					<Form.Input

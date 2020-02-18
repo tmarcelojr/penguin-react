@@ -12,22 +12,22 @@ export default class PenguinContainer extends Component {
 		babyPenguins: []
 	}
 
-	componentDidMount = () => {
-		this.getBabyPenguins()
-	}
+	// componentDidMount = () => {
+	// 	this.getBabyPenguins()
+	// }
 
-	// HOLD OFF ON THIS RIGHT NOW BECAUSE YOU WILL NOT BE ABLE TO VIEW THE LIST IF A USER IS NOT LOGGED IN
-	getBabyPenguins = async () => {
-		try {
-			const babyPenguinsRes = await fetch(process.env.REACT_APP_API_URL + 'api/v1/baby_penguins/', { credentials: 'include' })
-			const babyPenguinsJson = await babyPenguinsRes.json()
-			this.setState({
-				babyPenguins: babyPenguinsJson.data
-			})
-		} catch(err) {
-			console.log(err);
-		}
-	}
+	// // HOLD OFF ON THIS RIGHT NOW BECAUSE YOU WILL NOT BE ABLE TO VIEW THE LIST IF A USER IS NOT LOGGED IN
+	// getBabyPenguins = async () => {
+	// 	try {
+	// 		const babyPenguinsRes = await fetch(process.env.REACT_APP_API_URL + 'api/v1/baby_penguins/', { credentials: 'include' })
+	// 		const babyPenguinsJson = await babyPenguinsRes.json()
+	// 		this.setState({
+	// 			babyPenguins: babyPenguinsJson.data
+	// 		})
+	// 	} catch(err) {
+	// 		console.log(err);
+	// 	}
+	// }
 
 	off = () => {
 		this.setState({
