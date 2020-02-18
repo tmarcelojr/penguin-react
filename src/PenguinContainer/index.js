@@ -3,6 +3,7 @@ import NavList from './NavList'
 import Home from './Home'
 import BabyPenguins from './BabyPenguins'
 import Activities from './Activities'
+import NewBabyPenguinForm from './NewBabyPenguinForm'
 
 export default class PenguinContainer extends Component {
 	state = {
@@ -61,10 +62,28 @@ export default class PenguinContainer extends Component {
 		})
 	}
 
+	createBabyPenguin = async (babyPenguinToAdd) => {
+		console.log('we are in create baby penguin in p.container');
+		const createBabyPenguinRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/baby_penguins/', {
+			  credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify(babyPenguinToAdd),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+		})
+		const createBabyPenguinJson = await createBabyPenguinRes.json()
+		if(createBabyPenguinRes.status === 201) {
+			this.setState({
+				// Spread operator - takes current baby penguins and adds new baby penguin
+				babyPenguins:[...this.state.babyPenguins, createBabyPenguinJson.data]
+			})
+		}
+	}
+
 	render(){
 		return(
 			<React.Fragment>
-				<h2>Hello this is our penguin container</h2>
 			<NavList 
 				home={this.home}
 				babyPenguins={this.babyPenguins}
@@ -87,6 +106,9 @@ export default class PenguinContainer extends Component {
 				? <Activities />
 				: null
 			}
+			<NewBabyPenguinForm 
+				createBabyPenguin={this.createBabyPenguin}
+			/>
 			</React.Fragment>
 		)
 	}
