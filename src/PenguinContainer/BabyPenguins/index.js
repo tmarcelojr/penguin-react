@@ -1,5 +1,5 @@
 import React from 'react'
-
+import NewBabyPenguinForm from './NewBabyPenguinForm'
 export default function BabyPenguins(props) {
 	console.log('we are in babypenguins list');
 	const babyPenguins = props.babyPenguins.map((babyPenguin) => {
@@ -15,6 +15,7 @@ export default function BabyPenguins(props) {
 		<div>
 			<h2> baby penguins list </h2>
 			{babyPenguins}
+			<NewBabyPenguinForm />
 		</div>
 	)
 }

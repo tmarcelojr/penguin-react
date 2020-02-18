@@ -56,6 +56,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <h1>Penguin React</h1>
+        check current user: {this.state.loggedIn + ' ' + this.state.loggedInUsername}
         <PenguinContainer />
         <LoginRegisterForm 
           login={this.login}
