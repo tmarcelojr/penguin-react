@@ -13,6 +13,7 @@ export default class NavList extends Component {
 		if (e.target.name === 'activities') this.props.activities()
 		if (e.target.name === 'login') this.props.loginLink()
 		if (e.target.name === 'logout') this.props.logout()
+		if (e.target.name === 'schedule') this.props.schedule()
 	}
 
 	render() {
@@ -33,6 +34,11 @@ export default class NavList extends Component {
 						name='activities'
 						onClick={this.handleClick}>
 						Activities
+					</button>					
+					<button
+						name='schedule'
+						onClick={this.handleClick}>
+						Schedule
 					</button>
 				</div>
 				<div>

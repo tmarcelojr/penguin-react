@@ -6,6 +6,8 @@ import NewBabyPenguinForm from './NewBabyPenguinForm'
 import EditBabyPenguinForm from './EditBabyPenguinForm'
 import Activities from './Activities'
 import NewActivityForm from './NewActivityForm'
+import ScheduledActivities from './ScheduledActivities'
+import NewScheduledActivityForm from './NewScheduledActivityForm'
 import EditActivityForm from './EditActivityForm'
 import LoginRegisterForm from '../LoginRegisterForm'
 import './index.css'
@@ -16,12 +18,15 @@ export default class PenguinContainer extends Component {
 		homePage: false,
 		babyPenguinsPage: false,
 		activitiesPage: false,
+		scheduledActivitiesPage: false,
 		// Baby Penguins
 		babyPenguins: [],
 		idOfBabyPenguinToEdit: -1,
 		// Activities
 		activities: [],
 		idOfActivityToEdit: -1,
+		// Scheduled activities
+		scheduledActivities: [],
 		// Auth
 		login: false,
 		loggedIn: false,
@@ -37,6 +42,7 @@ export default class PenguinContainer extends Component {
 			homePage: false,
 			babyPenguinsPage: false,
 			activitiesPage: false,
+			scheduledActivitiesPage: false,
 			login: false
 		})
 	}
@@ -59,6 +65,13 @@ export default class PenguinContainer extends Component {
 		this.off()
 		this.setState({
 			activitiesPage: true
+		})
+	}
+
+	scheduledActivities = () => {
+		this.off()
+		this.setState({
+			scheduledActivitiesPage: true
 		})
 	}
 
@@ -201,7 +214,6 @@ export default class PenguinContainer extends Component {
 	}
 
 	updateActivity = async (newInfo) => {
-		console.log('we are in update', newInfo);
 		try {
       const updateActivityRes = await fetch(process.env.REACT_APP_API_URL + "/api/v1/activities/" + this.state.idOfActivityToEdit, {
         credentials: 'include',
@@ -211,15 +223,11 @@ export default class PenguinContainer extends Component {
           'Content-Type': 'application/json'
         }
       })
-      console.log('our newInfo', newInfo);
       const updateActivityJson = await updateActivityRes.json()
-      console.log('this is our updateActivityJson', updateActivityJson); // breaking before this as well
       if(updateActivityRes.status === 200) {
         const activities = this.state.activities
         const indexOfActivityToUpdate = this.state.activities.find(activity => activity.id === this.state.idOfActivityToEdit)
         activities[indexOfActivityToUpdate] = updateActivityJson.data
-        console.log('this is our updated json', updateActivityJson.data); // before this it is breaking
-        console.log(activities); // before this is where it is breaking
         this.setState({
           acitivites: activities
         })
@@ -231,7 +239,6 @@ export default class PenguinContainer extends Component {
 	          return activity
 	        }
 	      })
-	      console.log(newActivityArray); // by here des is already 1
 	      this.setState({
 	        activities: newActivityArray
 	      })       
@@ -249,7 +256,33 @@ export default class PenguinContainer extends Component {
   }
 
   // ==============================
-  // 						  AUTH
+  // 			SCHEDULED ACTIVITIES
+  // ==============================
+
+  scheduleActivity = async (id) => {
+  	try {
+  		const scheduledActivityRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/scheduled_activities/' + id, {
+        credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify(id),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+  		})
+  		const scheduledActivityJson = await scheduledActivityRes.json()
+  		if(scheduledActivityRes.status === 201) {
+			this.setState({
+				scheduledActivities: [...this.state.scheduledActivities, scheduledActivityJson.data]
+			})
+		}
+  	} catch(err) {
+
+  	}
+  }  
+
+
+  // ==============================
+  // 						 AUTH
   // ==============================
 
 	register = async (registerInfo) => {
@@ -332,6 +365,7 @@ export default class PenguinContainer extends Component {
 				activities={this.activities}
 				loginLink={this.loginLink}
 				logout={this.logout}
+				schedule={this.scheduledActivities}
 			/>
 
 			{/* Navigation links */}
@@ -396,13 +430,30 @@ export default class PenguinContainer extends Component {
 				}
 			</div>
 
-			{/* List of Activities*/}
+			{/* List of Activities */}
 			{
 				this.state.activitiesPage
 				? <Activities 
 						activities={this.state.activities}
 						deleteActivity={this.deleteActivity}
 						editActivity={this.editActivity}
+					/>
+				: null
+			}
+
+			{/* Schedule New Activity */}
+			{
+				this.state.scheduledActivitiesPage === true
+				?
+				<NewScheduledActivityForm />
+				: null
+			}
+
+			{/* List of Scheduled Activities */}
+			{
+				this.state.scheduledActivitiesPage
+				? <ScheduledActivities
+						scheduledActivities={this.state.scheduledActivities}
 					/>
 				: null
 			}
