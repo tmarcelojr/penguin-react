@@ -16,7 +16,8 @@ export default function BabyPenguins(props) {
 						</Card.Description>
 					</Card.Content>
 					<Card.Content extra>
-	        	<Button onClick={() => props.deleteBabyPenguin(babyPenguin.id)}>Delete Baby Penguin</Button>
+	        	<Button onClick={() => props.deleteBabyPenguin(babyPenguin.id)}>Delete</Button>
+	        	<Button onClick={() => props.editBabyPenguin(babyPenguin.id)}>Edit Baby Penguin</Button>
         </Card.Content>
 				</Card>
 			</div>

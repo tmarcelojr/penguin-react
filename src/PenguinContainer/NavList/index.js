@@ -12,6 +12,7 @@ export default class NavList extends Component {
 		if (e.target.name === 'babyPenguins') this.props.babyPenguins()
 		if (e.target.name === 'activities') this.props.activities()
 		if (e.target.name === 'login') this.props.loginLink()
+		if (e.target.name === 'logout') this.props.logout()
 	}
 
 	render() {
@@ -39,6 +40,11 @@ export default class NavList extends Component {
 						name='login'
 						onClick={this.handleClick}>
 						Login
+					</button>
+					<button
+						name='logout'
+						onClick={this.handleClick}>
+						Logout
 					</button>
 				</div>
 			</div>

@@ -4,6 +4,7 @@ import Home from './Home'
 import BabyPenguins from './BabyPenguins'
 import Activities from './Activities'
 import NewBabyPenguinForm from './NewBabyPenguinForm'
+import EditBabyPenguinForm from './EditBabyPenguinForm'
 import LoginRegisterForm from '../LoginRegisterForm'
 
 export default class PenguinContainer extends Component {
@@ -12,6 +13,7 @@ export default class PenguinContainer extends Component {
 		babyPenguinsPage: false,
 		activitiesPage: false,
 		babyPenguins: [],
+		idOfBabyPenguinToEdit: -1,
 		login: false,
 		loggedIn: false,
     loggedInUsername: null
@@ -85,8 +87,56 @@ export default class PenguinContainer extends Component {
     }
 	}
 
+	editBabyPenguin = async (idOfBabyPenguinToEdit) => {
+		console.log('current id', this.state.idOfBabyPenguinToEdit);
+		console.log('current id to edit', idOfBabyPenguinToEdit);
+		this.setState({
+			idOfBabyPenguinToEdit: idOfBabyPenguinToEdit
+		})
+	}
+
+	updateBabyPenguin = async (newInfo) => {
+		console.log('we are in update', newInfo);
+		console.log('id after setting state', this.state.idOfBabyPenguinToEdit);
+		try {
+      const updateBabyPenguinRes = await fetch(process.env.REACT_APP_API_URL + "/api/v1/baby_penguins/" + this.state.idOfBabyPenguinToEdit, {
+        credentials: 'include',
+        method: 'PUT',
+        body: JSON.stringify(newInfo),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const updateBabyPenguinJson = await updateBabyPenguinRes.json()
+      if(updateBabyPenguinRes.status === 200) {
+        const babyPenguins = this.state.babyPenguins
+        const indexOfBabyPenguinToUpdate = this.state.babyPenguins.find(babyPenguin => babyPenguin.id === this.state.idOfBabyPenguinToEdit)
+        babyPenguins[indexOfBabyPenguinToUpdate] = updateBabyPenguinJson.data
+        this.setState({
+          babyPenguins: babyPenguins
+        })
+	      const newBabyPenguinArray = this.state.babyPenguins.map((babyPenguin) => {
+	        if(babyPenguin.id === this.state.idOfBabyPenguinToEdit) {
+	          return updateBabyPenguinJson.data
+	        }
+	        else {
+	          return babyPenguin
+	        }
+	      })
+	      this.setState({
+	        babyPenguins: newBabyPenguinArray
+	      })       
+      }
+      else {
+        throw new Error("Could not edit baby penguin.")
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
 	register = async (registerInfo) => {
-    try{
+    try {
       const registerRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/register', {
         credentials: 'include', // Required for cookies
         method: 'POST',
@@ -111,7 +161,7 @@ export default class PenguinContainer extends Component {
 
   login = async (loginInfo) => {
   	console.log('we are in login with this info', loginInfo);
-    try{
+    try {
       const loginRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/login', {
           credentials: 'include',
           method: 'POST',
@@ -133,6 +183,29 @@ export default class PenguinContainer extends Component {
     }
   }
 
+  logout = async () => {
+  	try {
+  		const logoutRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/logout', {
+  				credentials: 'include',
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+  		})
+  		const logoutJson = await logoutRes.json()
+  		console.log(logoutJson);
+  		if(logoutRes.status === 200) {
+  			this.setState({
+  				logged: false,
+  				loggedInUsername: null
+  			})
+ 			}
+  		this.home()
+  	} catch(err) {
+  		console.log(err);
+  	}
+  }
+
 	render(){
 		return(
 			<React.Fragment>
@@ -141,6 +214,7 @@ export default class PenguinContainer extends Component {
 				babyPenguins={this.babyPenguins}
 				activities={this.activities}
 				loginLink={this.loginLink}
+				logout={this.logout}
 			/>
 
 			{/* Navigation links*/}
@@ -160,12 +234,21 @@ export default class PenguinContainer extends Component {
 				: null
 			}
 
+			{
+				this.state.idOfBabyPenguinToEdit !== -1
+				? <EditBabyPenguinForm 
+						updateBabyPenguin={this.updateBabyPenguin}
+					/>
+				: null
+			}
+
 			{/* List of baby penguins*/}
 			{
 				this.state.babyPenguinsPage
 				? <BabyPenguins 
 						babyPenguins={this.state.babyPenguins}
 						deleteBabyPenguin={this.deleteBabyPenguin}
+						editBabyPenguin={this.editBabyPenguin}
 					/>
 				: null
 			}
