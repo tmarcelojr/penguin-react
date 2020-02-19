@@ -176,6 +176,26 @@ export default class PenguinContainer extends Component {
 		}
 	}
 
+	deleteActivity = async (id) => {
+		try {
+      const deleteActivityRes = await fetch(process.env.REACT_APP_API_URL + "/api/v1/activities/" + id, {
+        credentials: 'include',
+        method: 'DELETE'
+      })
+      const deleteActivityJson = await deleteActivityRes.json();
+      if(deleteActivityJson.status === 200) {
+        this.setState({
+          activities: this.state.activities.filter(activity => activity.id !== id) 
+        })        
+      }
+      else {
+        throw new Error("Could not delete activity.")
+      }
+    } catch(err) {
+      console.error(err)
+    }
+	}
+
   // ==============================
   // 						  AUTH
   // ==============================
@@ -320,6 +340,7 @@ export default class PenguinContainer extends Component {
 				this.state.activitiesPage
 				? <Activities 
 						activities={this.state.activities}
+						deleteActivity={this.deleteActivity}
 					/>
 				: null
 			}
