@@ -1,0 +1,9 @@
+.edit-activity {
+	font-family: "Verdana" sans-serif;
+	width: 40%;
+	text-align: left;
+	border: 1px solid gray;
+	border-radius: 10%;
+	margin: 0 auto;
+	padding: 20px;
+}

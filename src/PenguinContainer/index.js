@@ -6,6 +6,7 @@ import NewBabyPenguinForm from './NewBabyPenguinForm'
 import EditBabyPenguinForm from './EditBabyPenguinForm'
 import Activities from './Activities'
 import NewActivityForm from './NewActivityForm'
+import EditActivityForm from './EditActivityForm'
 import LoginRegisterForm from '../LoginRegisterForm'
 import './index.css'
 
@@ -20,6 +21,7 @@ export default class PenguinContainer extends Component {
 		idOfBabyPenguinToEdit: -1,
 		// Activities
 		activities: [],
+		idOfActivityToEdit: -1,
 		// Auth
 		login: false,
 		loggedIn: false,
@@ -103,16 +105,12 @@ export default class PenguinContainer extends Component {
 	}
 
 	editBabyPenguin = async (idOfBabyPenguinToEdit) => {
-		console.log('current id', this.state.idOfBabyPenguinToEdit);
-		console.log('current id to edit', idOfBabyPenguinToEdit);
 		this.setState({
 			idOfBabyPenguinToEdit: idOfBabyPenguinToEdit
 		})
 	}
 
 	updateBabyPenguin = async (newInfo) => {
-		console.log('we are in update', newInfo);
-		console.log('id after setting state', this.state.idOfBabyPenguinToEdit);
 		try {
       const updateBabyPenguinRes = await fetch(process.env.REACT_APP_API_URL + "/api/v1/baby_penguins/" + this.state.idOfBabyPenguinToEdit, {
         credentials: 'include',
@@ -195,6 +193,60 @@ export default class PenguinContainer extends Component {
       console.error(err)
     }
 	}
+
+	editActivity = async (idOfActivityToEdit) => {
+		this.setState({
+			idOfActivityToEdit: idOfActivityToEdit
+		})
+	}
+
+	updateActivity = async (newInfo) => {
+		console.log('we are in update', newInfo);
+		try {
+      const updateActivityRes = await fetch(process.env.REACT_APP_API_URL + "/api/v1/activities/" + this.state.idOfActivityToEdit, {
+        credentials: 'include',
+        method: 'PUT',
+        body: JSON.stringify(newInfo),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log('our newInfo', newInfo);
+      const updateActivityJson = await updateActivityRes.json()
+      console.log('this is our updateActivityJson', updateActivityJson); // breaking before this as well
+      if(updateActivityRes.status === 200) {
+        const activities = this.state.activities
+        const indexOfActivityToUpdate = this.state.activities.find(activity => activity.id === this.state.idOfActivityToEdit)
+        activities[indexOfActivityToUpdate] = updateActivityJson.data
+        console.log('this is our updated json', updateActivityJson.data); // before this it is breaking
+        console.log(activities); // before this is where it is breaking
+        this.setState({
+          acitivites: activities
+        })
+	      const newActivityArray = this.state.activities.map((activity) => {
+	        if(activity.id === this.state.idOfActivityToEdit) {
+	          return updateActivityJson.data
+	        }
+	        else {
+	          return activity
+	        }
+	      })
+	      console.log(newActivityArray); // by here des is already 1
+	      this.setState({
+	        activities: newActivityArray
+	      })       
+      }
+      else {
+        throw new Error("Could not edit activity.")
+      }
+      // Hides edit form after updating
+      this.setState({
+      	idOfActivityToEdit: -1
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   // ==============================
   // 						  AUTH
@@ -333,6 +385,15 @@ export default class PenguinContainer extends Component {
 					/>
 					: null
 				}
+
+				{/* Edit activity form */}
+				{
+					this.state.idOfActivityToEdit !== -1
+					? <EditActivityForm 
+							updateActivity={this.updateActivity}
+						/>
+					: null
+				}
 			</div>
 
 			{/* List of Activities*/}
@@ -341,6 +402,7 @@ export default class PenguinContainer extends Component {
 				? <Activities 
 						activities={this.state.activities}
 						deleteActivity={this.deleteActivity}
+						editActivity={this.editActivity}
 					/>
 				: null
 			}
