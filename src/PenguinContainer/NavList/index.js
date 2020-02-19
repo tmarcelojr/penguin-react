@@ -12,6 +12,7 @@ export default class NavList extends Component {
 		if (e.target.name === 'home') this.props.home()
 		if (e.target.name === 'babyPenguins') this.props.babyPenguins()
 		if (e.target.name === 'activities') this.props.activities()
+		if (e.target.name === 'login') this.props.loginLink()
 	}
 
 	render() {
