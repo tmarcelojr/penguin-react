@@ -1,0 +1,10 @@
+.fake-link {
+	color: blue;
+	cursor: pointer;
+	font-family: "Verdana" sans-serif;
+}
+
+.login-register-title {
+	text-transform: capitalize;
+	font-family: "Verdana" sans-serif;
+}

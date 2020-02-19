@@ -1,20 +1,29 @@
 import React from 'react'
+import { Card, Button } from 'semantic-ui-react'
+import './index.css'
 
 export default function BabyPenguins(props) {
-	console.log('we are in babypenguins list');
+	let colors = ["red","orange","yellow","olive","green","teal","blue","violet","purple","pink","brown","grey","black"]
 	const babyPenguins = props.babyPenguins.map((babyPenguin) => {
-		console.log('this is our penguin', babyPenguin);
+		let color = colors[Math.floor(Math.random() * colors.length) - 1]
 		return(
-			<li key={babyPenguin.id}>
-				{babyPenguin.name} is a cute baby penguin and belongs to {babyPenguin.parent.username}
-			</li>
+			<div key={babyPenguin.id} className='baby-penguins-container'>
+				<Card color={color}>
+					<Card.Content>
+						<Card.Header>{babyPenguin.name}</Card.Header>
+						<Card.Description>
+							Parent: {babyPenguin.parent.username}
+						</Card.Description>
+					</Card.Content>
+					<Card.Content extra>
+	        	<Button onClick={() => props.deleteBabyPenguin(babyPenguin.id)}>Delete Baby Penguin</Button>
+        </Card.Content>
+				</Card>
+			</div>
 		)
 	})
-
-	console.log('this is our baby penguins', babyPenguins);
 	return(
 		<div>
-			<h2> baby penguins list </h2>
 			{babyPenguins}
 		</div>
 	)

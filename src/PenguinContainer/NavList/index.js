@@ -7,7 +7,6 @@ export default class NavList extends Component {
 	}
 
 	handleClick = (e) => {
-		console.log('You clicked on', e.target.name);
 		e.preventDefault()
 		if (e.target.name === 'home') this.props.home()
 		if (e.target.name === 'babyPenguins') this.props.babyPenguins()
@@ -40,11 +39,6 @@ export default class NavList extends Component {
 						name='login'
 						onClick={this.handleClick}>
 						Login
-					</button>
-					<button
-						name='register'
-						onClick={this.handleClick}>
-						Register
 					</button>
 				</div>
 			</div>

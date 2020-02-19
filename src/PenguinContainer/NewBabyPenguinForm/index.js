@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Button, Label, Segment } from 'semantic-ui-react'
+import { Form, Button, Label } from 'semantic-ui-react'
+import './index.css'
 
 export default class NewBabyPenguiForm extends Component {
 	state = {
@@ -18,8 +19,8 @@ export default class NewBabyPenguiForm extends Component {
 	}
 	render() {
 		return(
-			<Segment>
-				<h2>Add a baby penguin!</h2>
+			<div className="add-new-baby-penguin">
+				<h2>Add New Baby Penguin</h2>
 				<Form onSubmit={this.handleSubmit}>
           <Label>Name:</Label>
           <Form.Input 
@@ -28,9 +29,9 @@ export default class NewBabyPenguiForm extends Component {
             value={this.state.name}
             onChange={this.handleChange}
           />
-          <Button type="Submit">Create Baby Penguin</Button>
+          <Button type="Submit">Add</Button>
          </Form>
-			</Segment>
+			</div>
 		)
 	}
 }

@@ -28,7 +28,6 @@ export default class PenguinContainer extends Component {
 
 	home = () => {
 		this.off()
-		// console.log('We are inside home in NavList');
 		this.setState({
 			homePage: true
 		})
@@ -36,7 +35,6 @@ export default class PenguinContainer extends Component {
 
 	babyPenguins = () => {
 		this.off()
-		// console.log('We are inside babyPenguins in NavList');
 		this.setState({
 			babyPenguinsPage: true
 		})
@@ -44,14 +42,12 @@ export default class PenguinContainer extends Component {
 
 	activities = () => {
 		this.off()
-		// console.log('Yay activities list');
 		this.setState({
 			activitiesPage: true
 		})
 	}
 
 	createBabyPenguin = async (babyPenguinToAdd) => {
-		console.log('we are in create baby penguin in p.container');
 		const createBabyPenguinRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/baby_penguins/', {
 			  credentials: 'include',
         method: 'POST',
@@ -69,8 +65,27 @@ export default class PenguinContainer extends Component {
 		}
 	}
 
+	deleteBabyPenguin = async (id) => {
+		try {
+      const deleteBabyPenguinRes = await fetch(process.env.REACT_APP_API_URL + "/api/v1/baby_penguins/" + id, {
+        credentials: 'include',
+        method: 'DELETE'
+      })
+      const deleteBabyPenguinJson = await deleteBabyPenguinRes.json();
+      if(deleteBabyPenguinJson.status === 200) {
+        this.setState({
+          babyPenguins: this.state.babyPenguins.filter(baby_penguin => baby_penguin.id !== id) 
+        })        
+      }
+      else {
+        throw new Error("Could not delete baby penguin.")
+      }
+    } catch(err) {
+      console.error(err)
+    }
+	}
+
 	register = async (registerInfo) => {
-    // console.log('We are in register with', registerInfo);
     try{
       const registerRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/register', {
         credentials: 'include', // Required for cookies
@@ -81,7 +96,7 @@ export default class PenguinContainer extends Component {
         }
       })
       const registerJson = await registerRes.json()
-      console.log('this is our register json', registerJson);
+      console.log(registerJson);
     } catch(err) {
       console.log(err);
     }
@@ -95,7 +110,7 @@ export default class PenguinContainer extends Component {
   }
 
   login = async (loginInfo) => {
-    console.log('we are in login with this info', loginInfo);
+  	console.log('we are in login with this info', loginInfo);
     try{
       const loginRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/penguins/login', {
           credentials: 'include',
@@ -112,8 +127,7 @@ export default class PenguinContainer extends Component {
           loggedInUsername: loginJson.data.username // helpful for good UI
         })
       }
-      console.log(this.state.loggedIn);
-      console.log(this.state.loggedInUsername);
+      this.home()
     } catch(err) {
       console.log(err);
     }
@@ -135,10 +149,23 @@ export default class PenguinContainer extends Component {
 				? <Home />
 				: null
 			}
+
+			{/* Create baby form */}
+			{
+				this.state.babyPenguinsPage === true
+				?
+				<NewBabyPenguinForm 
+					createBabyPenguin={this.createBabyPenguin}
+				/>
+				: null
+			}
+
+			{/* List of baby penguins*/}
 			{
 				this.state.babyPenguinsPage
 				? <BabyPenguins 
 						babyPenguins={this.state.babyPenguins}
+						deleteBabyPenguin={this.deleteBabyPenguin}
 					/>
 				: null
 			}
@@ -148,21 +175,14 @@ export default class PenguinContainer extends Component {
 				: null
 			}
 
-			{/* Create baby form */}
-			{
-				this.state.babyPenguinsPage === true
-				?
-				<NewBabyPenguinForm 
-				createBabyPenguin={this.createBabyPenguin}
-				/>
-				: null
-			}
 
 			{/* Login form*/}
 			{
         this.state.login === true
         ?
-        <LoginRegisterForm />
+        <LoginRegisterForm 
+        	login={this.login}
+        />
         : null
       }
 			</React.Fragment>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Button, Label } from 'semantic-ui-react'
+import './index.css'
 
 export default class LoginRegisterForm extends Component {
 	state = {
@@ -23,12 +24,10 @@ export default class LoginRegisterForm extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault()
-		// console.log('We are in handleSubmit');
 		this.loginRegister()
 	}
 
 	loginRegister = () => {
-		// console.log('WE are in login register conditional func');
 		if(this.state.action === 'register') {
 			this.props.register(this.state)
 		}
@@ -40,7 +39,7 @@ export default class LoginRegisterForm extends Component {
 	render() {
 		return(
 			<div>
-				<h2>{this.state.action + ' here'}</h2>
+				<h2 className="login-register-title">{this.state.action + ' here'}</h2>
 				<form onSubmit={this.handleSubmit}>
 					<Label>Username:</Label>
 					<Form.Input
