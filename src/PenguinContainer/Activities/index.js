@@ -1,38 +1,34 @@
-import React, { Component } from 'react'
-import { Form, Button, Label } from 'semantic-ui-react'
+import React from 'react'
+import { Card, Button } from 'semantic-ui-react'
 import './index.css'
 
-export default class Activities extends Component {
-	state = {
-		name: '',
-		description: ''
-	}
-
-	handleChange = (e) => {
-		this.setState({
-			[e.target.name]: e.target.value
-		})
-	}
-
-	handleSubmit = (e) => {
-		e.preventDefault()
-		this.props.createActivity(this.state)
-	}
-	render() {
+export default function Activities(props) {
+	let colors = ["red","orange","yellow","olive","green","teal","blue","violet","purple","pink","brown","grey","black"]
+	const activities = props.activities.map((activity) => {
+		let color = colors[Math.floor(Math.random() * colors.length) - 1]
 		return(
-			<div className="add-new-activity">
-				<h2>Add New Activity</h2>
-				<Form onSubmit={this.handleSubmit}>
-          <Label>Name:</Label>
-          <Form.Input 
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-          <Button type="Submit">Add</Button>
-         </Form>
+			<div key={activity.id} className='activities-container'>
+				<Card color={color}>
+					<Card.Content>
+						<Card.Header>{activity.name}</Card.Header>
+						<Card.Description>
+							Description: {activity.description}
+						</Card.Description>
+						<Card.Description>
+							Parent: {activity.creator.username}
+						</Card.Description>
+					</Card.Content>
+					<Card.Content extra>
+	        	<Button onClick={() => props.deleteActivity(activity.id)}>Delete</Button>
+	        	<Button onClick={() => props.editActivity(activity.id)}>Edit Activity</Button>
+        </Card.Content>
+				</Card>
 			</div>
 		)
-	}
+	})
+	return(
+		<div>
+			{activities}
+		</div>
+	)
 }

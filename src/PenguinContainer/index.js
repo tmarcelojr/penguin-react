@@ -2,22 +2,33 @@ import React, { Component } from 'react'
 import NavList from './NavList'
 import Home from './Home'
 import BabyPenguins from './BabyPenguins'
-import Activities from './Activities'
 import NewBabyPenguinForm from './NewBabyPenguinForm'
 import EditBabyPenguinForm from './EditBabyPenguinForm'
+import Activities from './Activities'
+import NewActivityForm from './NewActivityForm'
 import LoginRegisterForm from '../LoginRegisterForm'
+import './index.css'
 
 export default class PenguinContainer extends Component {
 	state = {
+		// Links
 		homePage: false,
 		babyPenguinsPage: false,
 		activitiesPage: false,
+		// Baby Penguins
 		babyPenguins: [],
 		idOfBabyPenguinToEdit: -1,
+		// Activities
+		activities: [],
+		// Auth
 		login: false,
 		loggedIn: false,
     loggedInUsername: null
 	}
+
+	// ==============================
+  // 			 	 	 NAVIGATION
+  // ==============================
 
 	off = () => {
 		this.setState({
@@ -48,6 +59,10 @@ export default class PenguinContainer extends Component {
 			activitiesPage: true
 		})
 	}
+
+  // ==============================
+  // 			 	 BABY PENGUINS
+  // ==============================
 
 	createBabyPenguin = async (babyPenguinToAdd) => {
 		const createBabyPenguinRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/baby_penguins/', {
@@ -130,10 +145,40 @@ export default class PenguinContainer extends Component {
       else {
         throw new Error("Could not edit baby penguin.")
       }
+      // Hides edit form after updating
+      this.setState({
+      	idOfBabyPenguinToEdit: -1
+      })
     } catch(err) {
       console.log(err);
     }
   }
+
+  // ==============================
+  // 					 ACTIVITIES
+  // ==============================
+
+	createActivity = async (activityToAdd) => {
+		const createActivityRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/activities/', {
+			  credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify(activityToAdd),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+		})
+		const createActivityJson = await createActivityRes.json()
+		if(createActivityRes.status === 201) {
+			this.setState({
+				// Spread operator - takes current activities and adds new activity
+				activities: [...this.state.activities, createActivityJson.data]
+			})
+		}
+	}
+
+  // ==============================
+  // 						  AUTH
+  // ==============================
 
 	register = async (registerInfo) => {
     try {
@@ -217,32 +262,36 @@ export default class PenguinContainer extends Component {
 				logout={this.logout}
 			/>
 
-			{/* Navigation links*/}
+			{/* Navigation links */}
 			{
 				this.state.homePage
 				? <Home />
 				: null
 			}
 
-			{/* Create baby form */}
-			{
-				this.state.babyPenguinsPage === true
-				?
-				<NewBabyPenguinForm 
-					createBabyPenguin={this.createBabyPenguin}
-				/>
-				: null
-			}
-
-			{
-				this.state.idOfBabyPenguinToEdit !== -1
-				? <EditBabyPenguinForm 
-						updateBabyPenguin={this.updateBabyPenguin}
+			{/* Form modals for baby penguins */}
+			<div className='create-edit-baby-penguin-container'>
+				{/* Create baby penguin form */}
+				{
+					this.state.babyPenguinsPage === true
+					?
+					<NewBabyPenguinForm 
+						createBabyPenguin={this.createBabyPenguin}
 					/>
-				: null
-			}
+					: null
+				}
 
-			{/* List of baby penguins*/}
+				{/* Edit baby penguin form */}
+				{
+					this.state.idOfBabyPenguinToEdit !== -1
+					? <EditBabyPenguinForm 
+							updateBabyPenguin={this.updateBabyPenguin}
+						/>
+					: null
+				}
+			</div>
+
+			{/* List of baby penguins */}
 			{
 				this.state.babyPenguinsPage
 				? <BabyPenguins 
@@ -252,14 +301,30 @@ export default class PenguinContainer extends Component {
 					/>
 				: null
 			}
+
+			{/* Form modals for activities*/}
+			<div className='create-edit-baby-penguin-container'>
+				{/* Create activity form */}
+				{
+					this.state.activitiesPage === true
+					?
+					<NewActivityForm 
+						createActivity={this.createActivity}
+					/>
+					: null
+				}
+			</div>
+
+			{/* List of Activities*/}
 			{
 				this.state.activitiesPage
-				? <Activities />
+				? <Activities 
+						activities={this.state.activities}
+					/>
 				: null
 			}
 
-
-			{/* Login form*/}
+			{/* Login form */}
 			{
         this.state.login === true
         ?
