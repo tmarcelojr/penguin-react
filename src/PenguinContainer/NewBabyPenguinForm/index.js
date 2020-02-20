@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Button, Label } from 'semantic-ui-react'
 import './index.css'
 
-export default class NewBabyPenguiForm extends Component {
+export default class NewBabyPenguinForm extends Component {
 	state = {
 		name: ''
 	}

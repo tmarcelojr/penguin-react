@@ -374,6 +374,7 @@ export default class PenguinContainer extends Component {
 				babyPenguins={this.babyPenguins}
 				activities={this.activities}
 				loginLink={this.loginLink}
+				loggedIn={this.state.loggedIn}
 				logout={this.logout}
 				schedule={this.scheduledActivities}
 			/>

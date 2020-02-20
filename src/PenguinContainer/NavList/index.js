@@ -17,6 +17,8 @@ export default class NavList extends Component {
 	}
 
 	render() {
+		console.log('this is our login checker', this.state.checkLoggedIn);
+		console.log('this is our props', this.props.loggedIn);
 		return(
 			<div className='nav-bar'>
 				<div>
@@ -42,16 +44,21 @@ export default class NavList extends Component {
 					</button>
 				</div>
 				<div>
-					<button
-						name='login'
-						onClick={this.handleClick}>
-						Login
-					</button>
+				{
+					this.props.loggedIn === true
+					?
 					<button
 						name='logout'
 						onClick={this.handleClick}>
 						Logout
 					</button>
+					:
+					<button
+						name='login'
+						onClick={this.handleClick}>
+						Login
+					</button>
+				}
 				</div>
 			</div>
 		)
