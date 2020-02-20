@@ -267,7 +267,16 @@ export default class PenguinContainer extends Component {
         method: 'POST',
         body: JSON.stringify(activity_id, baby_penguin_id),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          // Getting access-control-allow-origin error. without additional header added.
+          // Added access-control-allow-origin error. '*' allows cross-origin requests from anywhere. This is not working.
+          // Taking out credentials: 'include', removes this error but gives unauthorized err.
+          // Taking out credentials: 'include', and removing login_required in API brings back error.
+
+          // 'Access-Control-Allow-Origin': '*'
+
+          'Access-Control-Allow-Origin': 'http://127.0.0.1:3000', // this doesn't work
+          'Access-Control-Allow-Credentials': 'true' // def didnt do anything either
         }
   		})
   		const scheduledActivityJson = await scheduledActivityRes.json()
@@ -469,6 +478,7 @@ export default class PenguinContainer extends Component {
         ?
         <LoginRegisterForm 
         	login={this.login}
+        	register={this.register}
         />
         : null
       }

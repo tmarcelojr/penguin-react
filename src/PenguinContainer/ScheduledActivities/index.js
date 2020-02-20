@@ -3,6 +3,7 @@ import { Card, Button } from 'semantic-ui-react'
 import './index.css'
 
 export default function ScheduledActivities(props) {
+	console.log('this is our scheduled activities', props);
 	let colors = ["red","orange","yellow","olive","green","teal","blue","violet","purple","pink","brown","grey","black"]
 	const scheduledActivities = props.scheduledActivities.map((scheduled_activity) => {
 		let color = colors[Math.floor(Math.random() * colors.length) - 1]
@@ -12,10 +13,10 @@ export default function ScheduledActivities(props) {
 					<Card.Content>
 						<Card.Header>{scheduled_activity.name}</Card.Header>
 						<Card.Description>
-							Activity: {scheduled_activity.activity}
+							Participant: {scheduled_activity.participant.name}
 						</Card.Description>
 						<Card.Description>
-							Scheduler: {scheduled_activity.parent.username}
+							Parent: {scheduled_activity.parent.username}
 						</Card.Description>
 					</Card.Content>
 					<Card.Content extra>

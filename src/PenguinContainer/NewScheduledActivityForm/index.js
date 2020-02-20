@@ -45,7 +45,7 @@ export default class NewScheduledActivityForm extends Component {
 		})
 		return(
 			<div>
-			<h2>test</h2>
+			<h2>Scheduled Activities</h2>
 			{activitiesToSchedule}
 			</div>
 			)		
