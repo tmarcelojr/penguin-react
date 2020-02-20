@@ -259,12 +259,13 @@ export default class PenguinContainer extends Component {
   // 			SCHEDULED ACTIVITIES
   // ==============================
 
-  scheduleActivity = async (id) => {
+  scheduleActivity = async (activity_id, baby_penguin_id) => {
+  	console.log('we made it in schedule activity');
   	try {
-  		const scheduledActivityRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/scheduled_activities/' + id, {
+  		const scheduledActivityRes = await fetch(process.env.REACT_APP_API_URL + '/api/v1/scheduled_activities/' + activity_id + '/' + baby_penguin_id, {
         credentials: 'include',
         method: 'POST',
-        body: JSON.stringify(id),
+        body: JSON.stringify(activity_id, baby_penguin_id),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -445,7 +446,11 @@ export default class PenguinContainer extends Component {
 			{
 				this.state.scheduledActivitiesPage === true
 				?
-				<NewScheduledActivityForm />
+				<NewScheduledActivityForm 
+					activities={this.state.activities}
+					babyPenguins={this.state.babyPenguins}
+					scheduleActivity={this.scheduleActivity}
+				/>
 				: null
 			}
 
