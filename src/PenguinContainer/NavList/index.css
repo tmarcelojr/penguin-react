@@ -2,6 +2,9 @@
 	display: flex;
 	justify-content: space-between;
 	padding: 20px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 0px;
 }
 
 .nav-bar button {
@@ -14,4 +17,12 @@
 	border: none;
 	cursor: pointer;
 	text-transform: uppercase;
+}
+
+.nav-bar button:hover {
+	text-decoration: underline; 
+}
+
+.login-icon {
+	width: 15px;
 }

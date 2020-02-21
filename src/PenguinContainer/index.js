@@ -356,7 +356,7 @@ export default class PenguinContainer extends Component {
   		console.log(logoutJson);
   		if(logoutRes.status === 200) {
   			this.setState({
-  				logged: false,
+  				loggedIn: false,
   				loggedInUsername: null
   			})
  			}
@@ -368,122 +368,122 @@ export default class PenguinContainer extends Component {
 
 	render(){
 		return(
-			<React.Fragment>
-			<NavList 
-				home={this.home}
-				babyPenguins={this.babyPenguins}
-				activities={this.activities}
-				loginLink={this.loginLink}
-				loggedIn={this.state.loggedIn}
-				logout={this.logout}
-				schedule={this.scheduledActivities}
-			/>
-
-			{/* Navigation links */}
-			{
-				this.state.homePage
-				? <Home />
-				: null
-			}
-
-			{/* Form modals for baby penguins */}
-			<div className='create-edit-baby-penguin-container'>
-				{/* Create baby penguin form */}
-				{
-					this.state.babyPenguinsPage === true
-					?
-					<NewBabyPenguinForm 
-						createBabyPenguin={this.createBabyPenguin}
-					/>
-					: null
-				}
-
-				{/* Edit baby penguin form */}
-				{
-					this.state.idOfBabyPenguinToEdit !== -1
-					? <EditBabyPenguinForm 
-							updateBabyPenguin={this.updateBabyPenguin}
-						/>
-					: null
-				}
-			</div>
-
-			{/* List of baby penguins */}
-			{
-				this.state.babyPenguinsPage
-				? <BabyPenguins 
-						babyPenguins={this.state.babyPenguins}
-						deleteBabyPenguin={this.deleteBabyPenguin}
-						editBabyPenguin={this.editBabyPenguin}
-					/>
-				: null
-			}
-
-			{/* Form modals for activities*/}
-			<div className='create-edit-baby-penguin-container'>
-				{/* Create activity form */}
-				{
-					this.state.activitiesPage === true
-					?
-					<NewActivityForm 
-						createActivity={this.createActivity}
-					/>
-					: null
-				}
-
-				{/* Edit activity form */}
-				{
-					this.state.idOfActivityToEdit !== -1
-					? <EditActivityForm 
-							updateActivity={this.updateActivity}
-						/>
-					: null
-				}
-			</div>
-
-			{/* List of Activities */}
-			{
-				this.state.activitiesPage
-				? <Activities 
-						activities={this.state.activities}
-						deleteActivity={this.deleteActivity}
-						editActivity={this.editActivity}
-					/>
-				: null
-			}
-
-			{/* Schedule New Activity */}
-			{
-				this.state.scheduledActivitiesPage === true
-				?
-				<NewScheduledActivityForm 
-					activities={this.state.activities}
-					babyPenguins={this.state.babyPenguins}
-					scheduleActivity={this.scheduleActivity}
+			<div className='penguin-container'>
+				<NavList 
+					home={this.home}
+					babyPenguins={this.babyPenguins}
+					activities={this.activities}
+					loginLink={this.loginLink}
+					loggedIn={this.state.loggedIn}
+					logout={this.logout}
+					schedule={this.scheduledActivities}
 				/>
-				: null
-			}
 
-			{/* List of Scheduled Activities */}
-			{
-				this.state.scheduledActivitiesPage
-				? <ScheduledActivities
-						scheduledActivities={this.state.scheduledActivities}
+				{/* Navigation links */}
+				{
+					this.state.homePage
+					? <Home />
+					: null
+				}
+
+				{/* Form modals for baby penguins */}
+				<div className='create-edit-baby-penguin-container'>
+					{/* Create baby penguin form */}
+					{
+						this.state.babyPenguinsPage === true
+						?
+						<NewBabyPenguinForm 
+							createBabyPenguin={this.createBabyPenguin}
+						/>
+						: null
+					}
+
+					{/* Edit baby penguin form */}
+					{
+						this.state.idOfBabyPenguinToEdit !== -1
+						? <EditBabyPenguinForm 
+								updateBabyPenguin={this.updateBabyPenguin}
+							/>
+						: null
+					}
+				</div>
+
+				{/* List of baby penguins */}
+				{
+					this.state.babyPenguinsPage
+					? <BabyPenguins 
+							babyPenguins={this.state.babyPenguins}
+							deleteBabyPenguin={this.deleteBabyPenguin}
+							editBabyPenguin={this.editBabyPenguin}
+						/>
+					: null
+				}
+
+				{/* Form modals for activities*/}
+				<div className='create-edit-baby-penguin-container'>
+					{/* Create activity form */}
+					{
+						this.state.activitiesPage === true
+						?
+						<NewActivityForm 
+							createActivity={this.createActivity}
+						/>
+						: null
+					}
+
+					{/* Edit activity form */}
+					{
+						this.state.idOfActivityToEdit !== -1
+						? <EditActivityForm 
+								updateActivity={this.updateActivity}
+							/>
+						: null
+					}
+				</div>
+
+				{/* List of Activities */}
+				{
+					this.state.activitiesPage
+					? <Activities 
+							activities={this.state.activities}
+							deleteActivity={this.deleteActivity}
+							editActivity={this.editActivity}
+						/>
+					: null
+				}
+
+				{/* Schedule New Activity */}
+				{
+					this.state.scheduledActivitiesPage === true
+					?
+					<NewScheduledActivityForm 
+						activities={this.state.activities}
+						babyPenguins={this.state.babyPenguins}
+						scheduleActivity={this.scheduleActivity}
 					/>
-				: null
-			}
+					: null
+				}
 
-			{/* Login form */}
-			{
-        this.state.login === true
-        ?
-        <LoginRegisterForm 
-        	login={this.login}
-        	register={this.register}
-        />
-        : null
-      }
-			</React.Fragment>
+				{/* List of Scheduled Activities */}
+				{
+					this.state.scheduledActivitiesPage
+					? <ScheduledActivities
+							scheduledActivities={this.state.scheduledActivities}
+						/>
+					: null
+				}
+
+				{/* Login form */}
+				{
+	        this.state.login === true
+	        ?
+	        <LoginRegisterForm 
+	        	login={this.login}
+	        	register={this.register}
+	        />
+	        : null
+	      }
+			</div>
 		)
 	}
 }

@@ -1,4 +1,9 @@
 .App {
   text-align: center;
   font-family: "Verdana" sans-serif;
+  padding: 1.5vh;
+}
+
+.website-logo {
+	width: 40%;
 }

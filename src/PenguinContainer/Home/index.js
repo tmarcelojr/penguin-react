@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import penguinGif from './penguinGif.gif'
+import './index.css'
 
 export default class Home extends Component {
 	state = {
@@ -7,9 +9,9 @@ export default class Home extends Component {
 
 	render(){
 		return(
-			<React.Fragment>
-				<h2>Hello this is our home page</h2>
-			</React.Fragment>
+			<div className='home-container'>
+				<img src={penguinGif} />
+			</div>
 		)
 	}
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import loginIcon from '../../loginIcon.png'
 import './index.css'
 
 export default class NavList extends Component {
@@ -17,8 +18,6 @@ export default class NavList extends Component {
 	}
 
 	render() {
-		console.log('this is our login checker', this.state.checkLoggedIn);
-		console.log('this is our props', this.props.loggedIn);
 		return(
 			<div className='nav-bar'>
 				<div>
@@ -56,7 +55,7 @@ export default class NavList extends Component {
 					<button
 						name='login'
 						onClick={this.handleClick}>
-						Login
+						<img className='login-icon' src={loginIcon} alt='login-icon' />Login
 					</button>
 				}
 				</div>
